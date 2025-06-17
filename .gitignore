@@ -1,0 +1,10 @@
+# IDE configurations files
+
+.idea/
+.vscode/
+
+# Undesirable files
+
+*.o
+*.a
+*.out
