@@ -6,7 +6,7 @@
 #    By: mmosca <mmosca@student.42lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/17 11:58:40 by mmosca            #+#    #+#              #
-#    Updated: 2025/06/17 12:52:20 by mmosca           ###   ########.fr        #
+#    Updated: 2025/06/17 13:22:38 by mmosca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ RM = rm -f
 MAKE = make --no-print-directory
 
 SOURCES =																	\
+	src/ft_strcmp.s															\
 	src/ft_strcpy.s															\
 	src/ft_strlen.s
 
@@ -65,6 +66,8 @@ test: ## Call the `re` rule and then compiles the test file, linking it with the
 	@$(MAKE) re
 	$(CC) main.c $(CFLAGS) -L . -l asm
 	./a.out
+	$(RM) a.out
+	@$(MAKE) fclean
 
 $(NAME): $(OBJECTS)
 	$(AR) $(ARFLAGS) $@ $^

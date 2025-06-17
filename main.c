@@ -6,57 +6,89 @@
 /*   By: mmosca <mmosca@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 12:04:11 by mmosca            #+#    #+#             */
-/*   Updated: 2025/06/17 12:05:30 by mmosca           ###   ########.fr       */
+/*   Updated: 2025/06/17 13:19:10 by mmosca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libasm.h"
 
 static void	test_strlen(void)
-{
-	char	message[] = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus tempus felis sollicitudin leo interdum, at luctus elit consequat.";
+{	
+	size_t	i;
+	size_t	length;
+	size_t	result;
+	size_t	expected;
+	char	*params[] = {"", "42", "Hello, World!", "!@#$%^&*_+=-"};
 
-	assert(ft_strlen("") == strlen(""));
-	assert(ft_strlen("42") == strlen("42"));
-	assert(ft_strlen("Hello, World!") == strlen("Hello, World!"));
-	assert(ft_strlen("!@#$%^&*_+=-") == strlen("!@#$%^&*_+=-"));
-	assert(ft_strlen(message) == strlen(message));
-
-	printf("Tests for strlen succedded.\n");
+	printf("Testing strlen...\n");
+	i = 0;
+	length = sizeof(params) / sizeof(params[0]);
+	while (i < length)
+	{
+		expected = strlen(params[i]);
+		result = ft_strlen(params[i]);
+		assert(expected == result);
+		i++;
+	}
+	printf("Tests related to strlen succedded !\n\n");
 }
 
 static void	test_strcpy(void)
 {
-	char	message[] = "Lorem ipsum dolor sit, amet consectetur.";
-	char	destination1[42];
-	char	destination2[42];
+	size_t	i;
+	size_t	length;
+	char	dummy[1000];
+	void	*result_ptr;
+	void	*expected_ptr;
+	char	result_dest[1000];
+	char	expected_dest[1000];
+	char	*params[] = {"", "42", "Hello, World!", "!@#$%^&*_+=-"};
 
-	strcpy(destination1, "");
-	ft_strcpy(destination2, "");
-	assert(strcmp(destination1, destination2) == 0);
+	printf("Testing strcpy...\n");
+	i = 0;
+	length = sizeof(params) / sizeof(params[0]);
+	while (i < length)
+	{
+		expected_ptr = strcpy(dummy, params[i]);
+		result_ptr = ft_strcpy(dummy, params[i]);
+		assert(expected_ptr == result_ptr);
 
-	strcpy(destination1, "42");
-	ft_strcpy(destination2, "42");
-	assert(strcmp(destination1, destination2) == 0);
+		strcpy(expected_dest, params[i]);
+		ft_strcpy(result_dest, params[i]);
+		assert(strcmp(expected_dest, result_dest) == 0);
 
-	strcpy(destination1, "Hello, World!");
-	ft_strcpy(destination2, "Hello, World!");
-	assert(strcmp(destination1, destination2) == 0);
+		i++;
+	}
+	printf("Tests related to strcpy succedded !\n\n");
+}
 
-	strcpy(destination1, "!@#$%^&*_+=-");
-	ft_strcpy(destination2, "!@#$%^&*_+=-");
-	assert(strcmp(destination1, destination2) == 0);
+static void	test_strcmp(void)
+{
+	size_t	i;
+	size_t	length;
+	int		result;
+	int		expected;
+	char	*params1[] = {"", "Hello, World!", "42", "Short", "Longer"};
+	char	*params2[] = {"", "Hello, World!", "24", "Shorter", "Long"};
 
-	strcpy(destination1, message);
-	ft_strcpy(destination2, message);
-	assert(strcmp(destination1, destination2) == 0);
-
-	printf("Tests for strcpy succedded.\n");
+	printf("Testing strcmp...\n");
+	i = 0;
+	length = sizeof(params1) / sizeof(params1[0]);
+	while (i < length)
+	{
+		expected = strcmp(params1[i], params2[i]);
+		result = ft_strcmp(params1[i], params2[i]);
+		assert(expected == result);
+		i++;
+	}
+	printf("Tests related to strcmp succedded !\n\n");	
 }
 
 int	main(void)
 {
+	printf("\n");
 	test_strlen();
 	test_strcpy();
+	test_strcmp();
 	return (0);
 }
