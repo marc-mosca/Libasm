@@ -6,13 +6,14 @@
 /*   By: mmosca <mmosca@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 12:04:36 by mmosca            #+#    #+#             */
-/*   Updated: 2025/06/17 12:09:58 by mmosca           ###   ########.fr       */
+/*   Updated: 2025/06/17 11:44:03 by mmosca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBASM_H
 # define LIBASM_H
 
+# include <assert.h>
 # include <stdio.h>
 # include <string.h>
 # include <unistd.h>
