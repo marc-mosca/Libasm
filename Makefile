@@ -6,7 +6,7 @@
 #    By: mmosca <mmosca@student.42lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/17 11:58:40 by mmosca            #+#    #+#              #
-#    Updated: 2025/06/17 12:02:02 by mmosca           ###   ########.fr        #
+#    Updated: 2025/06/17 12:52:20 by mmosca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,6 +64,7 @@ re: ## Call the `fclean` and then the `all` rule to rebuild everything.
 test: ## Call the `re` rule and then compiles the test file, linking it with the generated library.
 	@$(MAKE) re
 	$(CC) main.c $(CFLAGS) -L . -l asm
+	./a.out
 
 $(NAME): $(OBJECTS)
 	$(AR) $(ARFLAGS) $@ $^
