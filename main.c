@@ -6,7 +6,7 @@
 /*   By: mmosca <mmosca@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 12:04:11 by mmosca            #+#    #+#             */
-/*   Updated: 2025/06/18 11:46:00 by mmosca           ###   ########.fr       */
+/*   Updated: 2025/06/18 12:09:49 by mmosca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,61 +84,77 @@ static void	test_strcmp(void)
 	printf("Tests related to strcmp succedded !\n\n");
 }
 
-static void	test_write(int fd)
+static void	test_write(void)
 {
 	size_t	i;
-	size_t	length;
+	size_t	j;
+	size_t	length_params;
+	size_t	length_fds;
 	int		result;
 	int		expected;
 	int		result_errno;
 	int		expected_errno;
 	char	*params[] = {"", "42", "Hello, World!", "!@#$%^&*_+=-"};
+	int		fds[] = {-1, open("test.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644), 10};
 
 	printf("Testing write...\n");
 	i = 0;
-	length = sizeof(params) / sizeof(params[0]);
-	while (i < length)
+	length_params = sizeof(params) / sizeof(params[0]);
+	length_fds = sizeof(fds) / sizeof(fds[0]);
+	while (i < length_params)
+	{
+		j = 0;
+		while (j < length_fds)
+		{
+			errno = 0;
+			expected = write(fds[j], params[i], strlen(params[i]));
+			expected_errno = errno;
+
+			errno = 0;
+			result = ft_write(fds[j], params[i], strlen(params[i]));
+			result_errno = errno;
+
+			assert(expected == result);
+			assert(expected_errno == result_errno);
+
+			j++;
+		}
+		i++;
+	}
+
+	j = 0;
+	while (j < length_fds)
 	{
 		errno = 0;
-		expected = write(fd, params[i], strlen(params[i]));
+		expected = write(fds[j], NULL, 1000);
 		expected_errno = errno;
 
 		errno = 0;
-		result = ft_write(fd, params[i], strlen(params[i]));
+		result = ft_write(fds[j], NULL, 1000);
 		result_errno = errno;
 
 		assert(expected == result);
 		assert(expected_errno == result_errno);
-		i++;
+
+		j++;
 	}
 
-	errno = 0;
-	expected = write(fd, NULL, 1000);
-	expected_errno = errno;
-
-	errno = 0;
-	result = ft_write(fd, NULL, 1000);
-	result_errno = errno;
-
-	assert(expected == result);
-	assert(expected_errno == result_errno);
 	printf("Tests related to write succedded !\n\n");
+	close(fds[1]);
 }
+
+//static void	test_read(void)
+//{
+//	int	fds[] = {-1, open("test.txt", O_CREAT | O_RDWR, 0644), 10};
+//}
 
 int	main(void)
 {
-	int	fd;
-
-	fd = open("test.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fd < 0)
-	{
-		return (-1);
-	}
 	printf("\n");
 	test_strlen();
 	test_strcpy();
 	test_strcmp();
-	test_write(fd);
-	close(fd);
+	test_write();
+	// test_read();
 	return (0);
 }

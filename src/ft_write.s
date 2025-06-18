@@ -21,7 +21,9 @@ section .text
 	ft_write:
 		mov rax, 1					; Syscall number for `write` (Linux x86-64).
 		syscall						; Invoke the system call with `rdi`, `rsi` and `rdx`.
-		jc .error					; If carry flag is set, jump to `.error` label.
+
+		cmp rax, 0					; Compare rax with 0 to check for an error.
+		jl .error					; If less than 0, jump to `.error` label.
 		ret							; On success, return (number of bytes written is in `rax`).
 	
 	.error:
