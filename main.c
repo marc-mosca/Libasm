@@ -182,6 +182,33 @@ static void	test_read(void)
 	close(fds[1]);
 }
 
+static void	test_strdup(void)
+{
+	size_t	i;
+	size_t	length;
+	char	*expected;
+	char	*result;
+	char	*params[] = {"", "\0", "42", "Hello, World!", "!@#$%^&*_+=-", "Long string to check if memory allocation is good"};
+
+	printf("Testing strdup...\n");
+	i = 0;
+	length = sizeof(params) / sizeof(params[0]);
+	while (i < length)
+	{
+		expected = strdup(params[i]);
+		result = ft_strdup(params[i]);
+
+		assert(expected != (void *) 0);
+		assert(result != (void *) 0);
+		assert(strcmp(expected, result) == 0);
+
+		free(expected);
+		free(result);
+		i++;
+	}
+	printf("Tests related to strdup succedded !\n\n");
+}
+
 int	main(void)
 {
 	printf("\n");
@@ -189,6 +216,7 @@ int	main(void)
 	test_strcpy();
 	test_strcmp();
 	test_write();
-	 test_read();
+	test_read();
+	test_strdup();
 	return (0);
 }

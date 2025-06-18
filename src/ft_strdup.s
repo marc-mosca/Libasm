@@ -1,7 +1,7 @@
 ; **************************************************************************** ;
 ;                                                                              ;
 ;                                                         :::      ::::::::    ;
-;    ft_strlen.s                                        :+:      :+:    :+:    ;
+;    ft_strdup.s                                        :+:      :+:    :+:    ;
 ;                                                     +:+ +:+         +:+      ;
 ;    By: mmosca <mmosca@student.42lyon.fr>          +#+  +:+       +#+         ;
 ;                                                 +#+#+#+#+#+   +#+            ;
@@ -12,20 +12,25 @@
 
 bits 64
 
+extern ft_strcpy
+extern ft_strlen
+
+extern malloc
+extern __errno_location
+
 section .text
 
-	global ft_strlen
+	global ft_strdup
 
-	ft_strlen:
-		mov rcx, 0					; Initialize the `rcx` register to zero, used as a counter.
-        jmp .loop                   ; Jump directly to the `.loop` label to start the main loop.
+	ft_strdup:
+		call ft_strlen		; Save into `rax` the size of s (who is in `rdi`).
+		push rdi			; Push the string s into the stack.
+		inc rax				; Increment by 1 `rax` to allow null terminating.
 
-	.loop:
-		cmp byte [rdi + rcx], 0		; Compare the byte at address `rdi + rcx` with zero.
-		je .end						; If the current byte is the null byte, jump to `.end` label.
-		inc rcx						; Increment the `rcx` register by 1 to move to the next byte.
-		jmp .loop					; Jump back to the `.loop` label to repeat the process.
+		mov rdi, rax		; Save the size of s into rdi to allow malloc to read it.
+		call malloc			; Call to malloc function.
 
-	.end:
-		mov rax, rcx				; Insert the value of `rcx` into `rax`, which contains the length of the string.
-		ret							; Return from the function with the return value in `rax`.
+		pop rsi				; Push back the string s to duplicate, in `rsi`.
+		mov rdi, rax		; Put the newly-allocated space in `rdi`.
+		call ft_strcpy		; Copy the string s into the new allocated space.
+		ret					;  Return from the function with the return value in `rax`.

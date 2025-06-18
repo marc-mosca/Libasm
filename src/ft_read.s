@@ -1,7 +1,7 @@
 ; **************************************************************************** ;
 ;                                                                              ;
 ;                                                         :::      ::::::::    ;
-;    Makefile                                           :+:      :+:    :+:    ;
+;    ft_read.s                                          :+:      :+:    :+:    ;
 ;                                                     +:+ +:+         +:+      ;
 ;    By: mmosca <mmosca@student.42lyon.fr>          +#+  +:+       +#+         ;
 ;                                                 +#+#+#+#+#+   +#+            ;
@@ -12,7 +12,7 @@
 
 bits 64
 
-extern __errno_location				; External function to retrieve the address of `errno`.
+extern __errno_location
 
 section .text
 

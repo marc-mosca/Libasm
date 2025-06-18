@@ -30,6 +30,7 @@ SOURCES =																	\
 	src/ft_read.s															\
 	src/ft_strcmp.s															\
 	src/ft_strcpy.s															\
+	src/ft_strdup.s															\
 	src/ft_strlen.s															\
 	src/ft_write.s
 
@@ -66,7 +67,7 @@ re: ## Call the `fclean` and then the `all` rule to rebuild everything.
 .PHONY: test
 test: ## Call the `re` rule and then compiles the test file, linking it with the generated library.
 	@$(MAKE) re
-	$(CC) main.c $(CFLAGS) -no-pie -L . -l asm
+	$(CC) main.c $(CFLAGS) -L . -l asm
 	./a.out
 	$(RM) a.out
 	@$(MAKE) fclean
