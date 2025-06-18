@@ -6,7 +6,7 @@
 #    By: mmosca <mmosca@student.42lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/17 11:58:40 by mmosca            #+#    #+#              #
-#    Updated: 2025/06/17 13:22:38 by mmosca           ###   ########.fr        #
+#    Updated: 2025/06/18 11:53:34 by mmosca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,8 @@ MAKE = make --no-print-directory
 SOURCES =																	\
 	src/ft_strcmp.s															\
 	src/ft_strcpy.s															\
-	src/ft_strlen.s
+	src/ft_strlen.s															\
+	src/ft_write.s
 
 OBJECTS = $(SOURCES:.s=.o)
 

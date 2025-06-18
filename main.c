@@ -6,7 +6,7 @@
 /*   By: mmosca <mmosca@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 12:04:11 by mmosca            #+#    #+#             */
-/*   Updated: 2025/06/17 13:19:10 by mmosca           ###   ########.fr       */
+/*   Updated: 2025/06/18 11:46:00 by mmosca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,14 +81,64 @@ static void	test_strcmp(void)
 		assert(expected == result);
 		i++;
 	}
-	printf("Tests related to strcmp succedded !\n\n");	
+	printf("Tests related to strcmp succedded !\n\n");
+}
+
+static void	test_write(int fd)
+{
+	size_t	i;
+	size_t	length;
+	int		result;
+	int		expected;
+	int		result_errno;
+	int		expected_errno;
+	char	*params[] = {"", "42", "Hello, World!", "!@#$%^&*_+=-"};
+
+	printf("Testing write...\n");
+	i = 0;
+	length = sizeof(params) / sizeof(params[0]);
+	while (i < length)
+	{
+		errno = 0;
+		expected = write(fd, params[i], strlen(params[i]));
+		expected_errno = errno;
+
+		errno = 0;
+		result = ft_write(fd, params[i], strlen(params[i]));
+		result_errno = errno;
+
+		assert(expected == result);
+		assert(expected_errno == result_errno);
+		i++;
+	}
+
+	errno = 0;
+	expected = write(fd, NULL, 1000);
+	expected_errno = errno;
+
+	errno = 0;
+	result = ft_write(fd, NULL, 1000);
+	result_errno = errno;
+
+	assert(expected == result);
+	assert(expected_errno == result_errno);
+	printf("Tests related to write succedded !\n\n");
 }
 
 int	main(void)
 {
+	int	fd;
+
+	fd = open("test.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fd < 0)
+	{
+		return (-1);
+	}
 	printf("\n");
 	test_strlen();
 	test_strcpy();
 	test_strcmp();
+	test_write(fd);
+	close(fd);
 	return (0);
 }
