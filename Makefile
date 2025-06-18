@@ -6,7 +6,7 @@
 #    By: mmosca <mmosca@student.42lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/17 11:58:40 by mmosca            #+#    #+#              #
-#    Updated: 2025/06/18 11:53:34 by mmosca           ###   ########.fr        #
+#    Updated: 2025/06/18 12:16:55 by mmosca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ RM = rm -f
 MAKE = make --no-print-directory
 
 SOURCES =																	\
+	src/ft_read.s															\
 	src/ft_strcmp.s															\
 	src/ft_strcpy.s															\
 	src/ft_strlen.s															\
@@ -65,7 +66,7 @@ re: ## Call the `fclean` and then the `all` rule to rebuild everything.
 .PHONY: test
 test: ## Call the `re` rule and then compiles the test file, linking it with the generated library.
 	@$(MAKE) re
-	$(CC) main.c $(CFLAGS) -L . -l asm
+	$(CC) main.c $(CFLAGS) -no-pie -L . -l asm
 	./a.out
 	$(RM) a.out
 	@$(MAKE) fclean

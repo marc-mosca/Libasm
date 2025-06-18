@@ -6,7 +6,7 @@
 /*   By: mmosca <mmosca@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 12:04:11 by mmosca            #+#    #+#             */
-/*   Updated: 2025/06/18 12:09:49 by mmosca           ###   ########.fr       */
+/*   Updated: 2025/06/18 12:18:48 by mmosca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,10 +143,44 @@ static void	test_write(void)
 	close(fds[1]);
 }
 
-//static void	test_read(void)
-//{
-//	int	fds[] = {-1, open("test.txt", O_CREAT | O_RDWR, 0644), 10};
-//}
+static void	test_read(void)
+{
+	size_t	i;
+	size_t	length;
+	char	result_ref[1000];
+	char	expected_ref[1000];
+	ssize_t	expected;
+	ssize_t	result;
+	int		result_errno;
+	int		expected_errno;
+	int		fds[] = {-1, open("output.txt", O_CREAT | O_RDONLY, 0644), 10};
+
+	printf("Testing read...\n");
+	i = 0;
+	length = sizeof(fds) / sizeof(fds[0]);
+	while (i < length)
+	{
+		errno = 0;
+		expected = read(fds[i], expected_ref, 1000);
+		expected_errno = errno;
+		expected_ref[expected == -1 ? 0 : expected] = '\0';
+
+		lseek(fds[i], 0, SEEK_SET);
+
+		errno = 0;
+		result = ft_read(fds[i], result_ref, 1000);
+		result_errno = errno;
+		result_ref[result == -1 ? 0 : result] = '\0';
+
+		assert(expected == result);
+		assert(expected_errno == result_errno);
+		assert(strcmp(expected_ref, result_ref) == 0);
+		i++;
+	}
+
+	printf("Tests related to read succedded !\n\n");
+	close(fds[1]);
+}
 
 int	main(void)
 {
@@ -155,6 +189,6 @@ int	main(void)
 	test_strcpy();
 	test_strcmp();
 	test_write();
-	// test_read();
+	 test_read();
 	return (0);
 }
